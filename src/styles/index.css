@@ -16,3 +16,7 @@
 .delete-project-icon{
     width: 20px;
 }
+
+.card-circle-unchecked, .card-circle-checked, .delete-task{
+    width: 20px;
+}

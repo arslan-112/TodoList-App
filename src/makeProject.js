@@ -46,7 +46,7 @@ function createIndividualProject(text) {
 }
 
 function getProjects() {
-    const todoList = localStorage.getItem('todoList');
+    const todoList = localStorage.getItem('projectList');
     const todos = JSON.parse(todoList);
     if (todos === null) {
         return;
@@ -54,7 +54,7 @@ function getProjects() {
 
     let projects = [];
     for (let item of todos) {
-        if (!projects.includes(item.project)) {
+        if (!projects.includes(item.name)) {
             projects.push(item.project);
         }
     }
@@ -64,32 +64,46 @@ function getProjects() {
 
 function clearProject(event) {
     let projectName = event.target.nextSibling.textContent;
+    let todoList = JSON.parse(localStorage.getItem('projectList')) || [];
 
-    let todoItems = JSON.parse(localStorage.getItem('todoList'));
-    if (todoItems == null || todoItems.length === 0) {
-        return;
-    }
-
-    let remainItems = todoItems.filter(x => x.project != projectName);
-    localStorage.setItem('todoList', JSON.stringify(remainItems));
+    todoList = todoList.filter(proj => proj.name !== projectName);
+    localStorage.setItem('projectList', JSON.stringify(todoList));
 
     createProjects();
-    createTodoItems(remainItems);
+    createTodoItems(todoList[0]?.name || 'Default');
 }
+
 
 function renderTodoItems(event) {
     let projectName = event.target.textContent;
-    let todoItems = JSON.parse(localStorage.getItem('todoList'));
-    if (todoItems == null || todoItems.length == 0) {
-        return;
-    }
-    let projects = todoItems.filter(x => x.project === projectName);
-    if (projects === null) {
+
+    const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+    let project = todoList.find(proj => proj.name === projectName);
+
+    if (!project || !project.tasks.length) {
+        displayNoTasksMessage();
         return;
     }
 
-    createTodoItems(projects);
+    createTodoItems(project.name);
 }
+
+
+// Function to display "No tasks to display" message in the main content area
+function displayNoTasksMessage() {
+    const mainContent = document.querySelector('#main-new-task'); // Assuming this is the main content area
+    const noNewTaskDiv = document.createElement("div");
+    noNewTaskDiv.classList.add("no-new-taskdiv")
+    mainContent.after = noNewTaskDiv;
+
+    // Create and append the "No tasks" message
+    const message = document.createElement('p');
+    message.textContent = "No tasks to display.";
+    message.classList.add('no-tasks-message');
+    
+    noNewTaskDiv.appendChild(message);
+}
+
 
 const newProjicon = document.querySelector(".new-proj")
 newProjicon.addEventListener("click",()=> openNewProjectDialog() );
@@ -135,19 +149,18 @@ function openNewProjectDialog() {
 }
 
 // Function to add the new project to localStorage
-function addNewProjectToStorage(projectName) {
-    const todoList = localStorage.getItem('todoList');
-    let todos = JSON.parse(todoList) || [];
-
-    if (!todos.some(todo => todo.project === projectName)) {
-        const newProject = { project: projectName, todos: [] };
-        todos.push(newProject);
-        localStorage.setItem('todoList', JSON.stringify(todos));
+export function addNewProjectToStorage(projectName) {
+    const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+    if (!todoList.some(proj => proj.name === projectName)) {
+        const newProject = { name: projectName, tasks: [] };
+        todoList.push(newProject);
+        updateProjectsInTaskForm(newProject);
+        localStorage.setItem('projectList', JSON.stringify(todoList));
     }
 
-    // Update the projects dropdown in the task form
-    updateProjectsInTaskForm(projectName);
+    createProjects();
 }
+
 
 // Function to update the projects dropdown in the task form
 function updateProjectsInTaskForm(newProject) {
@@ -159,3 +172,4 @@ function updateProjectsInTaskForm(newProject) {
         projectDatalist.appendChild(option);
     }
 }
+

@@ -1,20 +1,26 @@
 import emptyCircle from "./Images/due-task.svg";
 import checkedCircle from "./Images/task-done.svg";
 import deleteIcon from "./Images/delete.svg";
+import createProjects from "./makeProject";
 
 
-function createTodoItems(todos) {
-    if (!todos || !Array.isArray(todos)) {
-        console.error("Invalid todos list: ", todos);
+function createTodoItems(projectName) {
+    const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+    const project = todoList.find(proj => proj.name === projectName);
+
+    if (!project || !project.tasks || project.tasks.length === 0) {
+        
         return;
     }
+
     let todoItemsDiv = document.querySelector('.todo-items');
     todoItemsDiv.textContent = "";
-
-    for (let todo of todos) {
+    for (let todo of project.tasks) {
         createItem(todo, todoItemsDiv);
+        addNewTodoToProject(todo);
     }
 }
+
 
 function createItem(todo, todoItemsDiv){
     let itemDiv = document.createElement("div");
@@ -95,19 +101,47 @@ function deleteToDoitem(event){
     divItem.remove();
 }
 
-function updateLocalstorage(divItem){
-    let title = divItem.querySelector('.card-title').textContent; 
 
-    const todoList = localStorage.getItem('todoList');
-    const todos = JSON.parse(todoList);
-
-    let removeItemIndex = todos.findIndex(x => x.title === title);
+function addNewTodoToProject(todoItem) {
+    const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+    let project = todoList.find(proj => proj.name === todoItem.project);
     
-    if (removeItemIndex != -1) {
-        todos.splice(removeItemIndex, 1);
+    if (project) {
+        project.tasks.push(todoItem);
+    } else {
+        const newProject = {
+            name: todoItem.project,
+            tasks: [todoItem]
+        };
+        todoList.push(newProject);
     }
-    localStorage.setItem('todoList', JSON.stringify(todos));
-    createProjects();
+
+    localStorage.setItem('projectList', JSON.stringify(todoList));
+}
+
+function updateLocalstorage(divItem) {
+    let title = divItem.querySelector('.card-title').textContent; 
+    let projectName = divItem.querySelector('.project-name').textContent; // Assuming there's a way to get the project name from the div
+
+    const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+
+    // Find the project by name
+    let project = todoList.find(proj => proj.name === projectName);
+
+    if (project) {
+        // Find the task by title within the project's tasks
+        let removeItemIndex = project.tasks.findIndex(task => task.title === title);
+        
+        if (removeItemIndex !== -1) {
+            project.tasks.splice(removeItemIndex, 1); // Remove the task from the project's tasks
+        }
+
+        // Update the local storage with the modified project
+        localStorage.setItem('projectList', JSON.stringify(todoList));
+        createProjects();  // Optionally recreate the projects
+    } else {
+        console.error("Project not found");
+    }
 }
 
 export {createTodoItems};

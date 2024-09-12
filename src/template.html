@@ -11,17 +11,17 @@
             <div class="title">TO DO LIST</div>
             <div class="new-task"> New Task  &nbsp;<img src="./Images/new.svg" width="15px"></div>
             <ul class="upperpart">
-                <li >
+                <li class="todaydiv">
                     <img src="./Images/due-today.svg" width="25px">
                     <div class="todays-tasks"> Due Today</div>
                 </li>
-                <li>
+                <li class="all-tasksdiv">
                     <img src="./Images/task.svg" width="25px">
-                    <div class="all-todos"></div>
+                    <div class="all-todos"> All Tasks</div>
                 </li>
-                <li>
+                <li class="all-projectsdiv">
                     <img src="./Images/all-projects.svg" width="25px">
-                    <div class="all-projects"></div>
+                    <div class="all-projects">All Projects</div>
                 </li> 
             </ul>
             <div class="my-projects">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <dialog id="dialog"></dialog>
+        <!-- <dialog id="dialog"></dialog>
             <form id="form">
                 <label for="title">Title</label>
                 <input type="text" id="title" required/>
@@ -62,13 +62,15 @@
                 <button id="cancel">Cancel</button>
                 <button id="submit">Submit</button>
             </div>
-        </dialog>
+        </dialog> -->
+
+        <div class="main-content">
+            <div class="project-title"> Default Project</div>
+            <div class="new-task" id="main-new-task"> New Task &nbsp;<img src="./Images/new.svg" width="15px"></div>
+            <div class="todo-items"></div>
+        </div>
     </div>
-    <div class="main-content">
-        <div class="project-title"> Default Project</div>
-        <div class="new-task"> New Task &nbsp;<img src="./Images/new.svg" width="15px"></div>
-        <div class="todo-items"></div>
-    </div>
+    
     
 </body>
 </html>
