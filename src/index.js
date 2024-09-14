@@ -1,18 +1,20 @@
 import "./styles/index.css";
 import "./styles/dialogstyle.css";
 import "./styles/dialogform.css";
-
-import makeProjects from './makeProject.js';
+import createProjects from './makeProject.js';
 import { createTodoItems } from './create-todo.js';
 import newTaskButton from './new-task.js';
-import allTasks  from "./sidebar.js";
+import allTasks, { allProjects }  from "./sidebar.js";
+import { dueToday } from "./sidebar.js";
 
-const todoList = localStorage.getItem('todoList');
+const todoList = localStorage.getItem('projectList');
 const todos = JSON.parse(todoList);
-console.log(todos);
 
-makeProjects();
-newTaskButton();
-createTodoItems(todos);
+
+createProjects();
 allTasks();
+newTaskButton();
+dueToday();
+allProjects();
+createTodoItems(todos);
 

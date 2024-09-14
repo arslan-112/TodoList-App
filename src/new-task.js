@@ -3,6 +3,7 @@ import { formatISO } from "date-fns";
 import createProjects from './makeProject.js';
 import { createTodoItems } from './create-todo.js';
 import { addNewProjectToStorage } from './makeProject.js';
+import newTaskIcon from "./Images/new.svg";
 
 // Create the task form dialog dynamically and append it to the body
 function createTaskForm() {
@@ -135,7 +136,7 @@ function createTaskForm() {
 }
 
 export default function initializeNewTaskButtons() {
-    const dialog = createTaskForm(); // Create the form dynamically
+    const dialog = createTaskForm(); 
     const newTaskSidebar = document.querySelector('.new-task');
     const inputTitle = dialog.querySelector('#title');
     const inputDescription = dialog.querySelector('#description');
@@ -147,13 +148,6 @@ export default function initializeNewTaskButtons() {
     const cancelButton = dialog.querySelector('#cancel');
 
     newTaskSidebar.addEventListener('click', () => {
-        dialog.showModal();
-        clearDialogFields();
-    });
-
-    // Add new task button in main content
-    const newTaskMainContent = document.querySelector('.main-content .new-task'); // Adjusted selector
-    newTaskMainContent.addEventListener('click', () => {
         dialog.showModal();
         clearDialogFields();
     });
@@ -215,4 +209,37 @@ export default function initializeNewTaskButtons() {
     cancelButton.addEventListener('click', () => {
         dialog.close();
     });
+}
+
+export function createMainContentTaskButton() {
+    const dialog = document.querySelector('#dialog');  // Get the existing dialog form
+    const mainContent = document.querySelector('.main-content');
+    console.log("inside the createMainContentTaskButton");
+    // Check if the button already exists to avoid duplicating it
+    let existingButton = mainContent.querySelector('#main-new-task');
+    if (existingButton) return;  // Exit if the button already exists
+
+    const newTaskMainContent = document.createElement('div');
+    newTaskMainContent.classList.add('new-task');
+    newTaskMainContent.id = 'main-new-task';  
+    console.log("Button created");
+    console.log(newTaskMainContent);
+
+    newTaskMainContent.textContent = 'New Task';
+
+    const imgElement = document.createElement('img');
+    imgElement.src = newTaskIcon; 
+    imgElement.width = 15;
+
+    // Add a non-breaking space between the text and image
+    newTaskMainContent.appendChild(document.createTextNode('\u00A0'));  
+    newTaskMainContent.appendChild(imgElement); 
+
+    newTaskMainContent.addEventListener('click', () => {
+        dialog.showModal();
+        clearDialogFields();  // Clear fields before showing the dialog
+    });
+
+    // Append the button to the main content
+    mainContent.appendChild(newTaskMainContent);
 }

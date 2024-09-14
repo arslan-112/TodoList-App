@@ -1,6 +1,6 @@
 .container{
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 4fr;
     grid-template-rows: auto 1fr;
     height: 100vh;
 }
@@ -9,8 +9,102 @@
     grid-column: 1/2;
 }
 
+.title{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.new-task{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style-type: none ;
+}
+
+li > img{
+    padding-right: 10px;
+}
+li > div{
+    display: flex;
+    align-items: center;
+}
+
+ul > li{
+    display: flex;
+    flex-direction: row;
+    padding: 8px 0;
+}
+.upperpart{
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.headerproj{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.headerproj > .title{
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+.project-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem;
+    padding-right: 1rem;
+}
+
 .main-content{
     grid-column:2/3 ;
+    grid-row: auto 1fr;
+}
+
+.title-main{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.todo-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(82, 65, 65);
+}
+
+.card{
+    background-color: aqua;
+    margin: 1rem ;
+    width: 70%;
+    
+}
+
+.card-title{
+    display: flex;
+    justify-content: center;
+}
+.card-description, .card-priority, .card-duedate, .card-project{
+    padding-left: 2.2rem;
+    padding-top: 0.3rem;
+}
+
+.card-images{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 1rem;
 }
 
 .delete-project-icon{

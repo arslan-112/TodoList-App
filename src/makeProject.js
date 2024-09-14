@@ -1,5 +1,6 @@
 import clearImage from './Images/delete.svg'; 
 import { createTodoItems } from './create-todo.js';
+import { createMainContentTaskButton } from './new-task.js';
 
 export default function createProjects() {    
     const projectListDiv = document.querySelector('.list-projects');
@@ -28,7 +29,7 @@ function addOtherProjects(projectListDiv) {
 
 function createIndividualProject(text) {
     let projectItemDiv = document.createElement('div');
-    projectItemDiv.classList.add('project-item'); 
+    projectItemDiv.classList.add('project-item');
 
     let clearIcon = new Image();
     clearIcon.src = clearImage;
@@ -39,8 +40,9 @@ function createIndividualProject(text) {
     projectP.textContent = text;
     projectP.addEventListener('click', e => renderTodoItems(e)); 
 
-    projectItemDiv.append(clearIcon);
     projectItemDiv.append(projectP);
+    projectItemDiv.append(clearIcon);
+    
 
     return projectItemDiv;
 }
@@ -55,13 +57,27 @@ function getProjects() {
     let projects = [];
     for (let item of todos) {
         if (!projects.includes(item.name)) {
-            projects.push(item.project);
+            projects.push(item.name);
         }
     }
 
     return projects.sort();
 }
 
+export function displayAllProjects(){
+    console.log("Inside display allProjects");
+    let projects = getProjects();
+    if(!projects.length) return ;
+    const mainContentArea = document.querySelector(".proj-items");
+    console.log(mainContentArea);
+    for(let project of projects){
+        const projDiv = document.createElement("div");
+        projDiv.classList.add("project-name-div");
+        projDiv.textContent = project;
+        mainContentArea.appendChild(projDiv);
+    }
+
+}
 function clearProject(event) {
     let projectName = event.target.nextSibling.textContent;
     let todoList = JSON.parse(localStorage.getItem('projectList')) || [];
@@ -70,38 +86,39 @@ function clearProject(event) {
     localStorage.setItem('projectList', JSON.stringify(todoList));
 
     createProjects();
+    mainContentsetter();
     createTodoItems(todoList[0]?.name || 'Default');
 }
 
 
 function renderTodoItems(event) {
     let projectName = event.target.textContent;
-
+    console.log("Project name: " + projectName);
     const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
     let project = todoList.find(proj => proj.name === projectName);
-
+    console.log("Outside if");
     if (!project || !project.tasks.length) {
+        console.log("inside if");
         displayNoTasksMessage();
         return;
     }
-
+    // removeNoTasksMessage();
+    console.log("Before mainContentsetter");
+    mainContentsetter();
+    console.log("After Main Content setter");
     createTodoItems(project.name);
 }
 
 
 // Function to display "No tasks to display" message in the main content area
 function displayNoTasksMessage() {
-    const mainContent = document.querySelector('#main-new-task'); // Assuming this is the main content area
-    const noNewTaskDiv = document.createElement("div");
-    noNewTaskDiv.classList.add("no-new-taskdiv")
-    mainContent.after = noNewTaskDiv;
-
-    // Create and append the "No tasks" message
-    const message = document.createElement('p');
-    message.textContent = "No tasks to display.";
-    message.classList.add('no-tasks-message');
+    const displayArea = document.querySelector('.main-content');
+    displayArea.textContent = "";
+    const messageDiv = document.createElement("div");
+    messageDiv.textContent = "No tasks to display :( ";
+    messageDiv.classList.add("message-div");
+    displayArea.appendChild(messageDiv);
     
-    noNewTaskDiv.appendChild(message);
 }
 
 
@@ -171,5 +188,23 @@ function updateProjectsInTaskForm(newProject) {
         option.value = newProject;
         projectDatalist.appendChild(option);
     }
+}
+
+export function mainContentsetter(){
+    const mainContentDiv = document.querySelector(".main-content");
+    mainContentDiv.innerHTML = " ";
+    const titleDiv = document.createElement("div");
+    titleDiv.classList.add("title-main");
+    console.log("Title div: ");
+    console.log(titleDiv);
+    mainContentDiv.appendChild(titleDiv);
+    createMainContentTaskButton();
+    console.log("Main Content task button created");
+    const todoItemsDiv = document.createElement("div");
+    todoItemsDiv.classList.add("todo-items");
+    todoItemsDiv.textContent = " ";
+    console.log("Todo items div");
+    console.log(todoItemsDiv);
+    mainContentDiv.appendChild(todoItemsDiv);
 }
 
