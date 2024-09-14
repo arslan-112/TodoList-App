@@ -1,1 +1,1 @@
-Template repo that contains basic webpack configurations that I need.
+Web Based TODO LIST App
