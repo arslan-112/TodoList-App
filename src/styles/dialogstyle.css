@@ -2,6 +2,15 @@
 dialog[open] {
     opacity: 1;
     transform: scaleY(1);
+    transform: scaleX(1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; /* Add a background for contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    padding: 2rem; /* Add padding to space out the content */
+    z-index: 1000; /* Ensure it stays on top */
   }
   
   /*   Closed state of the dialog   */

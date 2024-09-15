@@ -1,4 +1,3 @@
-/* Center the dialog in the middle of the screen */
 #dialog {
     border: none;
     border-radius: 10px;
@@ -7,83 +6,73 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #929394; /* Add a background for contrast */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    padding: 2rem; /* Add padding to space out the content */
-    z-index: 1000; /* Ensure it stays on top */
+    background-color: #79816a;
 }
 
-/* Improve form styling */
 #form {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: var(--title-color);
     font-weight: bold;
     display: grid;
     grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 3fr;
     gap: 1rem;
-    width: 100%; 
-    max-width: 600px; 
 }
 
-/* Input fields styling */
-#form > input, 
-#priority, 
-#projects, 
-#notes {
+#form > input {
     height: 1.5rem;
-    border: 1px solid var(--title-color);
-    border-radius: 5px;
-    color: rgb(88, 88, 255);
-    padding: 5px; /* Add padding inside inputs for better spacing */
-    background-color: blanchedalmond;
+    padding: 0.5rem;
 }
 
-/* Focus state for inputs */
-input:focus, 
-#priority:focus, 
-#projects:focus, 
-#notes:focus {
-    outline: none;
-    border-color: rgb(0, 122, 255); /* Change border color on focus */
-}
-
-/* Buttons container */
 .buttons {
     align-self: center;
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
     gap: 20px;
-    margin-top: 1rem;
-    grid-column: 1/3;
-    
+    grid-column: auto 1fr;
+
 }
 
-/* Button styling */
-#cancel, #submit {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    width: 100px;
-    padding: 5px 10px;
-    color: var(--title-color);
-    font-weight: bold;
+input {
     border: 1px solid var(--title-color);
     border-radius: 5px;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    color: rgb(88, 88, 255);
 }
 
-/* Button hover effect */
-#cancel:hover, #submit:hover {
-    background-color: rgba(88, 88, 255, 0.1); /* Light hover effect */
+input:focus,
+#priority:focus,
+#projects:focus,
+#notes:focus {
+    outline: none;
 }
 
-/* Full-width for project list inputs */
-.projects-list input {
+#priority,
+#notes {
+    border: 1px solid var(--title-color);
+    color:rgb(88, 88, 255);
+    border-radius: 5px;
+}
+
+.projects-list input{
+    height: 1.5rem;
     width: 100%;
+}
+
+#cancel,
+#submit {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 100px;
+    padding: 1px 5px;
+    color: var(--title-color);
+    font-weight: 1000;
+    border: 1px solid var(--title-color);
+    border-radius: 5px;
+    background-color:transparent;
+    cursor: pointer;
+    transition: 0.3s background-color;
+}
+
+#cancel:hover,#submit:hover{
+    background-color: blanchedalmond;
 }
 
 /* Center the dialog in the middle of the screen */

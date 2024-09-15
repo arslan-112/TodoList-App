@@ -11,6 +11,8 @@ const todoList = localStorage.getItem('projectList');
 const todos = JSON.parse(todoList);
 
 
+
+
 createProjects();
 allTasks();
 newTaskButton();
@@ -18,3 +20,9 @@ dueToday();
 allProjects();
 createTodoItems(todos);
 
+document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    const sidebar = document.querySelector('.leftpanel');
+    sidebar.classList.toggle('show-sidebar');
+});
+console.log(document.querySelector('.hamburger-menu'));
+console.log(document.querySelector('.leftpanel'));

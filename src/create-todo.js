@@ -54,13 +54,10 @@ function createTodoItems(projectName) {
 
 
 function createItem(todo, todoItemsDiv){
-    console.log("At start of createItem");
-    console.log(todoItemsDiv);
-    // let itemDiv = document.createElement("div");
-    // itemDiv.classList.add("item");
-
+    
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
+    cardDiv.setAttribute("id",todo.title);
 
     let cardTitle = document.createElement("h2");
     cardTitle.classList.add("card-title");
@@ -141,11 +138,12 @@ function toggleCircle(event, className){
     let image = event.target;
     image.style.display = 'none';
     let divItem = image.parentNode;
+    let parent = divItem.parentNode;
+    let parentid = parent.id;
+   
     divItem.querySelector(className).style.display = 'block';
     divItem.classList.toggle('item-checked');
-    let todoTextElements = document.querySelectorAll('.todo-text'); 
-    console.log(todoTextElements);
-
+    let todoTextElements = document.querySelectorAll(`#${parentid} .todo-text`);
     
     todoTextElements.forEach(element => {
         element.classList.toggle('strikethrough');
