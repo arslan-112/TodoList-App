@@ -67,7 +67,7 @@ function getProjects() {
 export function displayAllProjects(){
     console.log("Inside display allProjects");
     let projects = getProjects();
-    if(!projects.length) return ;
+    if( !projects || !projects.length) return ;
     const mainContentArea = document.querySelector(".proj-items");
     console.log(mainContentArea);
     for(let project of projects){
@@ -135,7 +135,7 @@ function openNewProjectDialog() {
             <input type="text" id="projectName" name="projectName" required>
             <div class="dialog-buttons">
                 <button type="submit">Create</button>
-                <button type="button" id="cancel">Cancel</button>
+                <button type="button" id="cancel-proj">Cancel</button>
             </div>
         </form>
     `;
@@ -158,7 +158,7 @@ function openNewProjectDialog() {
     });
 
     // Handle cancel button click
-    const cancelButton = document.querySelector('#cancel');
+    const cancelButton = document.querySelector('#cancel-proj');
     cancelButton.addEventListener('click', () => {
         dialog.close();
         document.body.removeChild(dialog);

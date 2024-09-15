@@ -64,23 +64,32 @@ function createItem(todo, todoItemsDiv){
 
     let cardTitle = document.createElement("h2");
     cardTitle.classList.add("card-title");
-    cardTitle.textContent = "Title: "+ todo.title;
+    cardTitle.textContent =todo.title;
 
     let cardDescription = document.createElement("p");
-    cardDescription.classList.add("card-description");
+    cardDescription.classList.add("card-description", "todo-text");
     cardDescription.textContent = "Description: "+ todo.description;
 
     let cardPriority = document.createElement("div");
-    cardPriority.classList.add("card-priority");
+    cardPriority.classList.add("card-priority","todo-text");
     cardPriority.textContent = "Priority:" + todo.priority;
 
     let cardDueDate = document.createElement("div");
-    cardDueDate.classList.add('card-duedate');
+    cardDueDate.classList.add('card-duedate',"todo-text");
     cardDueDate.textContent = "Due Date: "+ new Date(todo.dueDate).toLocaleString();
 
+    let projTitlediv = document.createElement("div");
+    projTitlediv.classList.add("card-project-title-container");
+
+    let projTitletext = document.createElement("div");
+    projTitletext.classList.add("title-text-proj", "todo-text");
+    projTitletext.textContent = "Project:  ";
     let cardProject = document.createElement("div");
-    cardProject.classList.add("card-project");
-    cardProject.textContent = "Project: " + todo.project;
+    cardProject.classList.add("card-project","todo-text");
+    cardProject.textContent =todo.project;
+
+    projTitlediv.appendChild(projTitletext);
+    projTitlediv.appendChild(cardProject);
 
     let cardimgsDiv = document.createElement("div");
     cardimgsDiv.classList.add("card-images");
@@ -117,7 +126,7 @@ function createItem(todo, todoItemsDiv){
     cardDiv.appendChild(cardDescription);
     cardDiv.appendChild(cardPriority);
     cardDiv.appendChild(cardDueDate);
-    cardDiv.appendChild(cardProject);
+    cardDiv.appendChild(projTitlediv);
     cardDiv.appendChild(cardimgsDiv);
 
     todoItemsDiv.appendChild(cardDiv);
@@ -134,6 +143,13 @@ function toggleCircle(event, className){
     let divItem = image.parentNode;
     divItem.querySelector(className).style.display = 'block';
     divItem.classList.toggle('item-checked');
+    let todoTextElements = document.querySelectorAll('.todo-text'); 
+    console.log(todoTextElements);
+
+    
+    todoTextElements.forEach(element => {
+        element.classList.toggle('strikethrough');
+    });
 }
 
 function deleteToDoitem(event){
@@ -145,24 +161,34 @@ function deleteToDoitem(event){
 
 
 function updateLocalstorage(divItem) {
+    console.log("Inside updatelocalstorage");
     let title = divItem.querySelector('.card-title').textContent; 
     console.log(title);
-    let projectName = divItem.querySelector('.card-project').textContent; // Assuming there's a way to get the project name from the div
+    let projectName = document.querySelector('.card-project').textContent; // Assuming there's a way to get the project name from the div
     console.log(projectName);
     const todoList = JSON.parse(localStorage.getItem('projectList')) || [];
+    console.log("TODOLIST: ");
+    console.log(todoList);
+
 
     // Find the project by name
     let project = todoList.find(proj => proj.name === projectName);
+    console.log("Project: "+ project);
 
     if (project) {
         // Find the task by title within the project's tasks
         let removeItemIndex = project.tasks.findIndex(task => task.title === title);
+        console.log("In if condition");
+        console.log("Item index: " + removeItemIndex);
         
         if (removeItemIndex !== -1) {
+            console.log("Not found?");
             project.tasks.splice(removeItemIndex, 1); // Remove the task from the project's tasks
         }
+        console.log(project);
 
         // Update the local storage with the modified project
+        console.log(todoList);
         localStorage.setItem('projectList', JSON.stringify(todoList));
         createProjects();  // Optionally recreate the projects
     } else {
